@@ -3,7 +3,9 @@ import requests
 import os
 
 app = Flask(__name__)
-MORALIS_API_KEY = os.getenv("MORALIS_API_KEY", "Your-Moralis-Key")
+
+# تأكد أن متغير MORALIS_API_KEY مضاف إلى بيئة Render
+MORALIS_API_KEY = os.getenv("MORALIS_API_KEY")
 
 @app.route('/proxy', methods=['GET'])
 def proxy():
@@ -22,7 +24,7 @@ def proxy():
 
 @app.route('/')
 def home():
-    return "DexProxy is running!"
+    return "✅ DexProxy is running and ready to fetch from Moralis API."
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=3000)
