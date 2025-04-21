@@ -20,7 +20,8 @@ def proxy():
         response = requests.get(target_url, headers=headers)
         return jsonify(response.json())
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    print("[ERROR] Proxy failed:", e)
+    return jsonify({"error": str(e)}), 500
 
 @app.route('/')
 def home():
