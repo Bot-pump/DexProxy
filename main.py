@@ -3,24 +3,19 @@ import requests
 import os
 
 app = Flask(__name__)
+MORALIS_API_KEY = os.getenv("MORALIS_API_KEY", "Your-Moralis-Key")
 
-MORALIS_API_KEY = os.getenv("MORALIS_API_KEY")
-
-@app.route('/v1/token/new')
-def get_new_tokens():
-    chain = request.args.get("chain")
-    limit = request.args.get("limit", 10)
-
-    if not chain:
-        return jsonify({"error": "Missing chain parameter"}), 400
-
-    headers = {
-        "X-API-Key": MORALIS_API_KEY
-    }
-    url = f"https://token-api.moralis.io/v1/token/new?chain={chain}&limit={limit}"
+@app.route('/proxy', methods=['GET'])
+def proxy():
+    target_url = request.args.get('url')
+    if not target_url:
+        return jsonify({"error": "Missing URL parameter"}), 400
 
     try:
-        response = requests.get(url, headers=headers)
+        headers = {
+            "X-API-Key": MORALIS_API_KEY
+        }
+        response = requests.get(target_url, headers=headers)
         return jsonify(response.json())
     except Exception as e:
         return jsonify({"error": str(e)}), 500
