@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-# تأكد أن متغير MORALIS_API_KEY مضاف إلى بيئة Render
+# تأكد من أن هذا المتغير موجود في Render Environment
 MORALIS_API_KEY = os.getenv("MORALIS_API_KEY")
 
 @app.route('/proxy', methods=['GET'])
@@ -20,8 +20,8 @@ def proxy():
         response = requests.get(target_url, headers=headers)
         return jsonify(response.json())
     except Exception as e:
-    print("[ERROR] Proxy failed:", e)
-    return jsonify({"error": str(e)}), 500
+        print("[ERROR] Proxy failed:", e)
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/')
 def home():
